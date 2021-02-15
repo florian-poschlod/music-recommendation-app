@@ -1,0 +1,9 @@
+<h2>Choose Preferences</h2>
+
+  <form action='/prefrences/user_id' method="POST"> 
+  {{#each genres}}
+   {{!-- this will be all an object of all available genres in the database --}}
+  <input type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}"> {{!-- this name will be the specific genre --}}
+  <label for="{{this}}"> {{this}}</label><br>
+  {{/each}}
+ </form>

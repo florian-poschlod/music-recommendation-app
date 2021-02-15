@@ -1,6 +1,20 @@
 const router = require("express").Router();
 const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
+const SpotifyWebApi = require('spotify-web-api-node');
+
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET
+});
+
+// Retrieve an access token
+spotifyApi
+  .clientCredentialsGrant()
+  .then(data => spotifyApi.setAccessToken(data.body['access_token']))
+  .catch(error => console.log('Something went wrong when retrieving an access token', error));
+
 
 // GET signup
 router.get('/signup', (req, res) => {
@@ -14,7 +28,16 @@ router.get('/login', (req, res) => {
 
 // GET preferences
 router.get('/preferences', (req, res) => {
-  res.render('preferences');
+  spotifyApi
+  .getAvailableGenreSeeds()
+  .then(function(data) {
+    let genreSeeds = data.body;
+    console.log(genreSeeds.genres);
+    res.render('preferences', {genres: genreSeeds.genres});
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
 })
 
 // GET home
