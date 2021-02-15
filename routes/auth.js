@@ -31,28 +31,29 @@ router.get('/preferences/:id', (req, res) => {
   const id = req.params.id
   let userGenres;
   User
-  .findById(id)
-  .then(user => {
-    //console.log(user);
-    userGenres = user.favGenres;
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .findById(id)
+    .then(user => {
+      //console.log(user);
+      userGenres = user.favGenres;
+    })
+    .catch(err => {
+      console.log(err);
+    })
   spotifyApi
-  .getAvailableGenreSeeds()
-  .then(function(data) {
-    let genreSeeds = data.body;
-    let newArray = genreSeeds.genres.filter(element => {
-      if (userGenres.includes(element)) return false
-      else return true
+    .getAvailableGenreSeeds()
+    .then(function (data) {
+      let genreSeeds = data.body;
+      let newArray = genreSeeds.genres.filter(element => {
+        if (userGenres.includes(element)) return false
+        else return true
       })
-    console.log(newArray);
-    res.render('preferences', {genres: newArray, userGenres});
-  })
-  .catch(err => {
-    console.log(err);
-  })
+      console.log(newArray);
+      console.log('at get prefs', id);
+      res.render('preferences', { genres: newArray, userGenres, id });
+    })
+    .catch(err => {
+      console.log(err);
+    })
 })
 
 // GET home
@@ -125,14 +126,23 @@ router.post('/login', (req, res) => {
 
 // TO DO: POST preferences
 router.post('/prefrences/:id', (req, res) => {
-//redirect to home
-//push the ticked genres to user genre array
+  //redirect to home
+  //push the ticked genres to user genre array
 
-const id = req.params.id
-const obj = {
-  favGenres : Object.values(req.body)
-}
-console.log(pickedGenres)
-User.findByIdAndUpdate(id, obj)
+  const id = req.params.id
+  const obj = {
+    favGenres: Object.values(req.body)
+  }
+  console.log(id);
+  console.log(obj);
+  User.findByIdAndUpdate(id, obj, { new: true })
+    .then(user => {
+      console.log(user, 'has been successfully updated.');
+    })
+    .catch(err => {
+      console.log(err);
+    });
 })
+
+
 module.exports = router;
