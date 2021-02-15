@@ -7,6 +7,21 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 })
 
+// GET login
+router.get('/login', (req, res) => {
+  res.render('login');
+})
+
+// GET preferences
+router.get('/preferences', (req, res) => {
+  res.render('preferences');
+})
+
+// GET home
+router.get('/home', (req, res) => {
+  res.render('home');
+})
+
 // POST signup
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
@@ -42,11 +57,6 @@ router.post('/signup', (req, res) => {
     })
 })
 
-// GET login
-router.get('/login', (req, res) => {
-  res.render('login');
-})
-
 // POST login
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -73,6 +83,8 @@ router.post('/login', (req, res) => {
       console.log(e);
     })
 })
+
+// TO DO: POST preferences
 
 
 module.exports = router;
