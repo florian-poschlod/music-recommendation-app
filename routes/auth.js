@@ -1,6 +1,20 @@
 const router = require("express").Router();
 const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
+const SpotifyWebApi = require('spotify-web-api-node');
+
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET
+});
+
+// Retrieve an access token
+spotifyApi
+  .clientCredentialsGrant()
+  .then(data => spotifyApi.setAccessToken(data.body['access_token']))
+  .catch(error => console.log('Something went wrong when retrieving an access token', error));
+
 
 // GET signup
 router.get('/signup', (req, res) => {
@@ -13,8 +27,33 @@ router.get('/login', (req, res) => {
 })
 
 // GET preferences
-router.get('/preferences', (req, res) => {
-  res.render('preferences');
+router.get('/preferences/:id', (req, res) => {
+  const id = req.params.id
+  let userGenres;
+  User
+    .findById(id)
+    .then(user => {
+      //console.log(user);
+      userGenres = user.favGenres;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  spotifyApi
+    .getAvailableGenreSeeds()
+    .then(function (data) {
+      let genreSeeds = data.body;
+      let newArray = genreSeeds.genres.filter(element => {
+        if (userGenres.includes(element)) return false
+        else return true
+      })
+      console.log(newArray);
+      console.log('at get prefs', id);
+      res.render('preferences', { genres: newArray, userGenres, id });
+    })
+    .catch(err => {
+      console.log(err);
+    })
 })
 
 // GET home
@@ -26,6 +65,7 @@ router.get('/home', (req, res) => {
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
   //Check, if username is empty
+  //console.log(username, password)
   if (username === '') {
     res.render('signup', { message: 'Your username cannot be empty' });
     return
@@ -48,7 +88,7 @@ router.post('/signup', (req, res) => {
         User.create({ username: username, password: hash })
           .then(userFromDB => {
             console.log(userFromDB);
-            res.redirect('/preferences');
+            res.redirect(`/preferences/${userFromDB._id}`);
           })
       }
     })
@@ -85,6 +125,24 @@ router.post('/login', (req, res) => {
 })
 
 // TO DO: POST preferences
+router.post('/prefrences/:id', (req, res) => {
+  //redirect to home
+  //push the ticked genres to user genre array
+
+  const id = req.params.id
+  const obj = {
+    favGenres: Object.values(req.body)
+  }
+  console.log(id);
+  console.log(obj);
+  User.findByIdAndUpdate(id, obj, { new: true })
+    .then(user => {
+      console.log(user, 'has been successfully updated.');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+})
 
 
 module.exports = router;

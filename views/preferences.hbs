@@ -1,0 +1,18 @@
+<h2>Choose Preferences</h2>
+
+
+  <form action='/prefrences/{{id}}' method="POST"> 
+  {{#each userGenres}}
+    <input type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}" Checked>
+    <label for="{{this}}"> {{this}}</label><br>
+  {{/each}}
+
+  {{#each genres}}
+    <input type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}"> 
+    <label for="{{this}}"> {{this}}</label><br>
+  {{/each}}
+  <button type="submit">Submit</button>
+
+ </form>
+
+
