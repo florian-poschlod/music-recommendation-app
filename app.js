@@ -50,9 +50,11 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Music Recommendation App';
 
 
-
+// Routes
 const index = require('./routes/index');
 app.use('/', index);
+const auth = require('./routes/auth');
+app.use('/', auth)
 
 
 module.exports = app;
