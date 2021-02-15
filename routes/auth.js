@@ -27,17 +27,32 @@ router.get('/login', (req, res) => {
 })
 
 // GET preferences
-router.get('/preferences', (req, res) => {
+router.get('/preferences/:id', (req, res) => {
+  const id = req.params.id
+  let userGenres;
+  User
+  .findById(id)
+  .then(user => {
+    //console.log(user);
+    userGenres = user.favGenres;
+  })
+  .catch(err => {
+    console.log(err);
+  })
   spotifyApi
   .getAvailableGenreSeeds()
   .then(function(data) {
     let genreSeeds = data.body;
-    console.log(genreSeeds.genres);
-    res.render('preferences', {genres: genreSeeds.genres});
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-
+    let newArray = genreSeeds.genres.filter(element => {
+      if (userGenres.includes(element)) return false
+      else return true
+      })
+    console.log(newArray);
+    res.render('preferences', {genres: newArray, userGenres});
+  })
+  .catch(err => {
+    console.log(err);
+  })
 })
 
 // GET home
@@ -49,6 +64,7 @@ router.get('/home', (req, res) => {
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
   //Check, if username is empty
+  //console.log(username, password)
   if (username === '') {
     res.render('signup', { message: 'Your username cannot be empty' });
     return
@@ -71,7 +87,7 @@ router.post('/signup', (req, res) => {
         User.create({ username: username, password: hash })
           .then(userFromDB => {
             console.log(userFromDB);
-            res.redirect('/preferences');
+            res.redirect(`/preferences/${userFromDB._id}`);
           })
       }
     })
@@ -108,6 +124,15 @@ router.post('/login', (req, res) => {
 })
 
 // TO DO: POST preferences
+router.post('/prefrences/:id', (req, res) => {
+//redirect to home
+//push the ticked genres to user genre array
 
-
+const id = req.params.id
+const obj = {
+  favGenres : Object.values(req.body)
+}
+console.log(pickedGenres)
+User.findByIdAndUpdate(id, obj)
+})
 module.exports = router;
