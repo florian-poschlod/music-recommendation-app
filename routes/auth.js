@@ -57,8 +57,10 @@ router.get('/preferences/:id', (req, res) => {
 })
 
 // GET home
-router.get('/home', (req, res) => {
-  res.render('home');
+router.get('/home/:id', (req, res) => {
+  const id = req.params.id;
+  console.log(id)
+  res.render('home', {id});
 })
 
 // POST signup
@@ -100,7 +102,7 @@ router.post('/signup', (req, res) => {
 // POST login
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-
+  //const id;
   // Check, if the entered username exists in the DB
   User.findOne({ username: username })
     .then(userFromDB => {
@@ -111,10 +113,10 @@ router.post('/login', (req, res) => {
       }
       // If username exists in DB, check, if the password is correct
       if (bcrypt.compareSync(password, userFromDB.password)) {
-        // console.log('user from db: ', userFromDB);
-        req.session.user = userFromDB;
-        console.log('req.session.user', req.session.user);
-        res.redirect('/home');
+        // req.session.user = userFromDB;
+        // console.log('req.session.user', req.session.user);
+        const id = userFromDB._id;
+        res.redirect(`/home/${id}`);
       } else {
         res.render('login', { message: 'Invalid credentials' });
       }
@@ -138,6 +140,7 @@ router.post('/prefrences/:id', (req, res) => {
   User.findByIdAndUpdate(id, obj, { new: true })
     .then(user => {
       console.log(user, 'has been successfully updated.');
+      res.redirect(`/home/${id}`)
     })
     .catch(err => {
       console.log(err);
