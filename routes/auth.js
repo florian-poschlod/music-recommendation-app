@@ -16,65 +16,77 @@ spotifyApi
   .catch(error => console.log('Something went wrong when retrieving an access token', error));
 
 
+// Check permission
+function checkPermission(req, res, id) {
+  if (req.session.user === undefined) {
+    console.log('User not registered')
+    res.redirect('/')
+  }
+  else if (req.session.user._id === id) {
+    //console.log(id)
+    return true;
+    res.render('home', { id });
+  }
+  else {
+    console.log('User not logged in.')
+    res.redirect('/')
+  }
+}
+
+
 // GET signup
 router.get('/signup', (req, res) => {
   res.render('signup');
 })
+
 
 // GET login
 router.get('/login', (req, res) => {
   res.render('login');
 })
 
+
 // GET preferences
 router.get('/preferences/:id', (req, res) => {
   const id = req.params.id
-  let userGenres;
-  User
-    .findById(id)
-    .then(user => {
-      //console.log(user);
-      userGenres = user.favGenres;
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  spotifyApi
-    .getAvailableGenreSeeds()
-    .then(function (data) {
-      let genreSeeds = data.body;
-      let newArray = genreSeeds.genres.filter(element => {
-        if (userGenres.includes(element)) return false
-        else return true
+  if (checkPermission(req, res, id)) {
+    let userGenres;
+    User
+      .findById(id)
+      .then(user => {
+        //console.log(user);
+        userGenres = user.favGenres;
       })
-      console.log(newArray);
-      console.log('at get prefs', id);
-      res.render('preferences', { genres: newArray, userGenres, id });
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .catch(err => {
+        console.log(err);
+      })
+    spotifyApi
+      .getAvailableGenreSeeds()
+      .then(function (data) {
+        let genreSeeds = data.body;
+        let newArray = genreSeeds.genres.filter(element => {
+          if (userGenres.includes(element)) return false
+          else return true
+        })
+        console.log(newArray);
+        console.log('at get prefs', id);
+        res.render('preferences', { genres: newArray, userGenres, id });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 })
+
 
 // GET home
 router.get('/home/:id', (req, res) => {
-  //console.log('home', req.session.user)
   const id = req.params.id;
-  console.log(req.session.user);
-  if (req.session.user === undefined) {
-    console.log('user not loged in')
-    res.redirect('/')
-  }
-  else if (req.session.user._id === id){
-    //console.log(id)
-    res.render('home', {id});
-  }
-  
-  else {
-    console.log('user not loged in')
-    res.redirect('/')
+  if (checkPermission(req, res, id)) {
+    res.render('home', { id });
   }
 })
+
 
 //GET logout
 router.get('/logout', (req, res) => {
@@ -87,11 +99,11 @@ router.get('/logout', (req, res) => {
   })
 })
 
+
 // POST signup
 router.post('/signup', (req, res) => {
   const { username, password } = req.body;
   //Check, if username is empty
-  //console.log(username, password)
   if (username === '') {
     res.render('signup', { message: 'Your username cannot be empty' });
     return
@@ -124,10 +136,10 @@ router.post('/signup', (req, res) => {
     })
 })
 
+
 // POST login
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  //const id;
   // Check, if the entered username exists in the DB
   User.findOne({ username: username })
     .then(userFromDB => {
@@ -151,10 +163,9 @@ router.post('/login', (req, res) => {
     })
 })
 
+
 // POST preferences
 router.post('/prefrences/:id', (req, res) => {
-  //redirect to home
-  //push the ticked genres to user genre array
 
   const id = req.params.id
   const obj = {
