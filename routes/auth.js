@@ -58,9 +58,33 @@ router.get('/preferences/:id', (req, res) => {
 
 // GET home
 router.get('/home/:id', (req, res) => {
+  //console.log('home', req.session.user)
   const id = req.params.id;
-  console.log(id)
-  res.render('home', {id});
+  console.log(req.session.user);
+  if (req.session.user === undefined) {
+    console.log('user not loged in')
+    res.redirect('/')
+  }
+  else if (req.session.user._id === id){
+    //console.log(id)
+    res.render('home', {id});
+  }
+  
+  else {
+    console.log('user not loged in')
+    res.redirect('/')
+  }
+})
+
+//GET logout
+router.get('/logout', (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  })
 })
 
 // POST signup
@@ -90,6 +114,7 @@ router.post('/signup', (req, res) => {
         User.create({ username: username, password: hash })
           .then(userFromDB => {
             console.log(userFromDB);
+            req.session.user = userFromDB;
             res.redirect(`/preferences/${userFromDB._id}`);
           })
       }
@@ -113,8 +138,8 @@ router.post('/login', (req, res) => {
       }
       // If username exists in DB, check, if the password is correct
       if (bcrypt.compareSync(password, userFromDB.password)) {
-        // req.session.user = userFromDB;
-        // console.log('req.session.user', req.session.user);
+        req.session.user = userFromDB;
+        //console.log('req.session.user', req.session.user);
         const id = userFromDB._id;
         res.redirect(`/home/${id}`);
       } else {
@@ -126,7 +151,7 @@ router.post('/login', (req, res) => {
     })
 })
 
-// TO DO: POST preferences
+// POST preferences
 router.post('/prefrences/:id', (req, res) => {
   //redirect to home
   //push the ticked genres to user genre array
