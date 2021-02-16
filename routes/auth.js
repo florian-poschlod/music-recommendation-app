@@ -54,7 +54,6 @@ router.get('/preferences/:id', (req, res) => {
     User
       .findById(id)
       .then(user => {
-        //console.log(user);
         userGenres = user.favGenres;
       })
       .catch(err => {
@@ -87,6 +86,31 @@ router.get('/home/:id', (req, res) => {
   }
 })
 
+// GET recommendation
+router.get('/recommendation/:id', (req, res) => {
+  const id = req.params.id;
+  if (checkPermission(req, res, id)) {
+    User.findById(id)
+      .then(userFromDB => {
+        const genres = userFromDB.favGenres;
+        spotifyApi.getRecommendations({
+          seed_genres: genres,
+          limit: 1
+        })
+          .then(data => {
+            let recommendations = data.body;
+            let image = recommendations.tracks[0].album.images[0].url;
+            res.render('recommendation', { image, id })
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+})
 
 //GET logout
 router.get('/logout', (req, res) => {
@@ -171,8 +195,7 @@ router.post('/prefrences/:id', (req, res) => {
   const obj = {
     favGenres: Object.values(req.body)
   }
-  console.log(id);
-  console.log(obj);
+
   User.findByIdAndUpdate(id, obj, { new: true })
     .then(user => {
       console.log(user, 'has been successfully updated.');
