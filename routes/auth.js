@@ -160,6 +160,10 @@ router.post('/prefrences/:id', (req, res) => {
   const obj = {
     favGenres: Object.values(req.body)
   }
+  //find recommendations baed on genre seeds
+  //
+
+  
   console.log(id);
   console.log(obj);
   User.findByIdAndUpdate(id, obj, { new: true })
