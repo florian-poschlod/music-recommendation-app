@@ -96,5 +96,7 @@ app.use('/', recom)
 const home = require('./routes/home');
 app.use('/', home)
 
+const param = require('./routes/param');
+app.use('/', param)
 
 module.exports = app;

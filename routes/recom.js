@@ -35,12 +35,21 @@ function checkPermission(req, res, id) {
 // GET recommendation
 router.get('/recommendation/:id', (req, res) => {
   const id = req.params.id;
+  const data1 = req.body
+  console.log(data1)
   if (checkPermission(req, res, id)) {
     User.findById(id)
       .then(userFromDB => {
         const genres = userFromDB.favGenres;
+        console.log(userFromDB);
+        const tempo = userFromDB.param.tempo;
+        const acousticness = userFromDB.param.acousticness/10;
         spotifyApi.getRecommendations({////////
           seed_genres: genres,
+          min_tempo: tempo - 10,
+          max_tempo: tempo + 10,
+          min_acousticness: acousticness - 0.1,
+          max_acousticness: acousticness + 0.1,
           limit: 1
         })
           .then(data => {
@@ -49,7 +58,7 @@ router.get('/recommendation/:id', (req, res) => {
               albumName: data.body.tracks[0].album.name,
               artistName: data.body.tracks[0].artists[0].name
             };
-            console.log(names);
+            //console.log(names);
             let albumId = data.body.tracks[0].album.id
             let image = recommendations.tracks[0].album.images[0].url;
             spotifyApi.getAlbumTracks(albumId)//////////
