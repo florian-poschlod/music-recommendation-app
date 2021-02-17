@@ -42,7 +42,11 @@ router.get('/preferences/:id', (req, res) => {
     User
       .findById(id)
       .then(user => {
-        userGenres = user.favGenres;
+        prefs = {
+          favGenres: user.favGenres,
+          favArtists: user.favArtists
+        }
+        console.log(prefs);
       })
       .catch(err => {
         console.log(err);
@@ -52,12 +56,10 @@ router.get('/preferences/:id', (req, res) => {
       .then(function (data) {
         let genreSeeds = data.body;
         let newArray = genreSeeds.genres.filter(element => {
-          if (userGenres.includes(element)) return false
+          if (prefs.favGenres.includes(element)) return false
           else return true
         })
-        console.log(newArray);
-        console.log('at get prefs', id);
-        res.render('preferences', { genres: newArray, userGenres, id });
+        res.render('preferences', { genres: newArray, prefs, id });
       })
       .catch(err => {
         console.log(err);
@@ -68,13 +70,14 @@ router.get('/preferences/:id', (req, res) => {
 
 // POST preferences
 router.post('/prefrences/:id', (req, res) => {
-
+  // console.log('req body', req.body);
   const id = req.params.id
-  const obj = {
-    favGenres: Object.values(req.body)
+  const prefs = {
+    favGenres: req.body.favGenres,
+    favArtists: req.body.favArtists
   }
 
-  User.findByIdAndUpdate(id, obj, { new: true })
+  User.findByIdAndUpdate(id, prefs, { new: true })
     .then(user => {
       console.log(user, 'has been successfully updated.');
       res.redirect(`/home/${id}`)
