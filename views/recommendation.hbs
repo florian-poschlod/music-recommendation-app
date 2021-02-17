@@ -1,3 +1,16 @@
 <h2>Recommendation</h2>
 
+<a href="/home/{{id}}">back</a>
+
+<h3>Album: {{names.albumName}}</h3>
+<h3>Artist: {{names.artistName}}</h3>
 <img src="{{image}}" alt="">
+
+{{#each tracks}}
+  <p>{{this.name}}</p> 
+  {{#if this.preview_url}}
+      <audio controls>
+        <source src="{{this.preview_url}}" type="audio/mpeg">
+      </audio>
+  {{/if}}
+{{/each}}
