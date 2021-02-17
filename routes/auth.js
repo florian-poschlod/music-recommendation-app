@@ -44,15 +44,6 @@ router.get('/login', (req, res) => {
 })
 
 
-// // GET home
-// router.get('/home/:id', (req, res) => {
-//   const id = req.params.id;
-//   if (checkPermission(req, res, id)) {
-//     res.render('home', { id });
-//   }
-// })
-
-
 //GET logout
 router.get('/logout', (req, res) => {
   req.session.destroy(function (err) {
@@ -70,19 +61,19 @@ router.post('/signup', (req, res) => {
   const { username, password } = req.body;
   //Check, if username is empty
   if (username === '') {
-    res.render('signup', { message: 'Your username cannot be empty' });
+    res.render('signup', { message: 'Your username cannot be empty.' });
     return
   }
   //Check, if password has minumum 8 chars
   if (password.length < 8) {
-    return res.render('signup', { message: 'Your password has to be 8 chars min' });
+    return res.render('signup', { message: 'Your password has to be at least 8 characters long.' });
   }
   // Check if the username already exists
   User.findOne({ username: username })
     .then(userFromDB => {
       // Check, if username is already taken
       if (userFromDB !== null) {
-        res.render('signup', { message: 'Username is already taken' });
+        res.render('signup', { message: 'The desired username is already taken.' });
       } else {
         // Add new user withcredentials to the DB
         const salt = bcrypt.genSaltSync();
@@ -108,9 +99,19 @@ router.post('/login', (req, res) => {
   // Check, if the entered username exists in the DB
   User.findOne({ username: username })
     .then(userFromDB => {
+      //Check, if username is empty
+      if (username === '') {
+        res.render('login', { message: 'Username cannot be empty.' });
+        return
+      }
+      //Check, if password has minumum 8 chars
+      if (password.length === 0) {
+        return res.render('login', { message: 'Please enter the correct password.' });
+      }
+
       if (userFromDB === null) {
         // If user doesn't exist, show login again
-        res.render('login', { message: 'Invalid credentials' });
+        res.render('login', { message: 'You entered a wrong username or password.' });
         return;
       }
       // If username exists in DB, check, if the password is correct
@@ -120,7 +121,7 @@ router.post('/login', (req, res) => {
         const id = userFromDB._id;
         res.redirect(`/home/${id}`);
       } else {
-        res.render('login', { message: 'Invalid credentials' });
+        res.render('login', { message: 'You entered a wrong username or password.' });
       }
     })
     .catch(e => {
