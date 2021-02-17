@@ -1,16 +1,8 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  --color-error: red;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
-}
+  color: #00B7FF; }
 
-/* Typography */
-
-/* Typescale */
-.error {
-  color: var(--color-error);
-}
+/*# sourceMappingURL=style.css.map */

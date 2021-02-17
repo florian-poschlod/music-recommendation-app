@@ -31,23 +31,30 @@ function checkPermission(req, res, id) {
   }
 }
 
+router.post('/parameters/:id', (req, res) => {
 
-// GET home
-router.get('/home/:id', (req, res) => {
-  const id = req.params.id;
-  if (checkPermission(req, res, id)) {
-    User
-      .findById(id)
-      .then(user => {
-        param = user.param;
-        res.render('home', { id, param });  
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    
+  const id = req.params.id
+  const obj = {
+    param: {
+      tempo: req.body.tempo,
+      acousticness: req.body.acousticness
+    }
   }
+  
+  User.findByIdAndUpdate(id, obj, { new: true })
+    .then(user => {
+      console.log(user, 'has been successfully updated.');
+      res.redirect(`/home/${id}`)
+    })
+    .catch(err => {
+      console.log(err);
+    });
 })
+
+
+
+
+
 
 
 module.exports = router;
