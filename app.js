@@ -68,6 +68,7 @@ const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET
 });
+// console.log('spf api in app.js', spotifyApi);
 
 // Retrieve an access token
 spotifyApi
@@ -83,9 +84,18 @@ app.locals.title = 'Music Recommendation App';
 // Routes
 const index = require('./routes/index');
 app.use('/', index);
+
 const auth = require('./routes/auth');
 app.use('/', auth)
 
+const prefs = require('./routes/prefs');
+app.use('/', prefs)
+
+const recom = require('./routes/recom');
+app.use('/', recom)
+
+const home = require('./routes/home');
+app.use('/', home)
 
 
 module.exports = app;
