@@ -1,8 +1,13 @@
 <h2>Log In</h2>
+
+<p class="body-text error">{{message}}</p>
+
 <form action="/login" method="POST">
   <label for="username">Username</label>
   <input type="text" name="username">
+
   <label for="">Password</label>
   <input type="password" name="password">
+  
   <button type="submit">Log In</button>
 </form>
