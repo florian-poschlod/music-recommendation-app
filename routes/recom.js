@@ -39,14 +39,28 @@ router.get('/recommendation/:id', (req, res) => {
     User.findById(id)
       .then(userFromDB => {
         const genres = userFromDB.favGenres;
-        spotifyApi.getRecommendations({
+        spotifyApi.getRecommendations({////////
           seed_genres: genres,
           limit: 1
         })
           .then(data => {
             let recommendations = data.body;
+            let names = {
+              albumName: data.body.tracks[0].album.name,
+              artistName: data.body.tracks[0].artists[0].name
+            };
+            console.log(names);
+            let albumId = data.body.tracks[0].album.id
             let image = recommendations.tracks[0].album.images[0].url;
-            res.render('recommendation', { image, id })
+            spotifyApi.getAlbumTracks(albumId)//////////
+              .then(data => {
+                let tracks = data.body.items;
+                //console.log(data.body);
+                res.render('recommendation', { image, id, tracks, names})
+              })
+              .catch(err => {
+                console.log('Something went wrong!', err);
+              })
           })
           .catch(err => {
             console.log(err);
