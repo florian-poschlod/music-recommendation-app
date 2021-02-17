@@ -3,12 +3,12 @@
 
   <form action='/prefrences/{{id}}' method="POST"> 
   {{#each userGenres}}
-    <input type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}" Checked>
+    <input class="checked" type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}" Checked>
     <label for="{{this}}"> {{this}}</label><br>
   {{/each}}
 
   {{#each genres}}
-    <input type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}"> 
+    <input class="check" type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}"> 
     <label for="{{this}}"> {{this}}</label><br>
   {{/each}}
   <button type="submit">Submit</button>
@@ -16,3 +16,12 @@
  </form>
 
 
+<script type="text/javascript">
+    let limit = 5;
+$('input.check').on('change', function(evt) {
+  console.log(evt.target.checked)
+   if($(this).siblings(':checked').length >= limit) {
+       this.checked = false;
+   }
+});
+</script>
