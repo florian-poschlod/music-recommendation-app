@@ -1,27 +1,60 @@
 <h2>Choose Preferences</h2>
 
+<form action='/prefrences/{{id}}' method="POST">
 
-  <form action='/prefrences/{{id}}' method="POST"> 
-  {{#each userGenres}}
-    <input class="checked" type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}" Checked>
-    <label for="{{this}}"> {{this}}</label><br>
-  {{/each}}
+  <h2>Pick your five favourite genres:</h2>
 
-  {{#each genres}}
-    <input class="check" type="checkbox" id="{{this}}" name="{{this}}" value="{{this}}"> 
-    <label for="{{this}}"> {{this}}</label><br>
-  {{/each}}
+  <div class="flex row wrap">
+    {{#each prefs.favGenres}}
+    <div class="tag">
+      <input class="checked" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}" Checked>
+      <label for="{{this}}"> {{this}}</label><br>
+    </div>
+
+    {{/each}}
+
+    {{#each genres}}
+    <div class="tag">
+      <input class="check" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}">
+      <label for="{{this}}"> {{this}}</label><br>
+    </div>
+
+    {{/each}}
+  </div>
+
+
+  <h2>Enter your five favourite artists:</h2>
+
+
+  <div class="flex row wrap">
+    <label for="favArtists">Artist 1:</label>
+    <input type="text" name="favArtists" value="{{prefs.favArtists.[0]}}">
+
+    <label for="favArtists">Artist 2:</label>
+    <input type="text" name="favArtists" value="{{prefs.favArtists.[1]}}">
+
+    <label for="favArtists">Artist 3:</label>
+    <input type="text" name="favArtists" value="{{prefs.favArtists.[2]}}">
+
+    <label for="favArtists">Artist 4:</label>
+    <input type="text" name="favArtists" value="{{prefs.favArtists.[3]}}">
+
+    <label for="favArtists">Artist 5:</label>
+    <input type="text" name="favArtists" value="{{prefs.favArtists.[4]}}">
+  </div>
+
+
   <button type="submit">Submit</button>
 
- </form>
+</form>
 
 
 <script type="text/javascript">
-    let limit = 5;
-$('input.check').on('change', function(evt) {
-  console.log(evt.target.checked)
-   if($(this).siblings(':checked').length >= limit) {
-       this.checked = false;
-   }
-});
+  let limit = 5;
+  $('input.check').on('change', function (evt) {
+    console.log(evt.target.checked)
+    if ($(this).siblings(':checked').length >= limit) {
+      this.checked = false;
+    }
+  });
 </script>
