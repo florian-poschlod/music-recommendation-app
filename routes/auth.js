@@ -23,9 +23,7 @@ function checkPermission(req, res, id) {
     res.redirect('/')
   }
   else if (req.session.user._id === id) {
-    //console.log(id)
     return true;
-    res.render('home', { id });
   }
   else {
     console.log('User not logged in.')
@@ -46,71 +44,14 @@ router.get('/login', (req, res) => {
 })
 
 
-// GET preferences
-router.get('/preferences/:id', (req, res) => {
-  const id = req.params.id
-  if (checkPermission(req, res, id)) {
-    let userGenres;
-    User
-      .findById(id)
-      .then(user => {
-        userGenres = user.favGenres;
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    spotifyApi
-      .getAvailableGenreSeeds()
-      .then(function (data) {
-        let genreSeeds = data.body;
-        let newArray = genreSeeds.genres.filter(element => {
-          if (userGenres.includes(element)) return false
-          else return true
-        })
-        console.log(newArray);
-        console.log('at get prefs', id);
-        res.render('preferences', { genres: newArray, userGenres, id });
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-})
+// // GET home
+// router.get('/home/:id', (req, res) => {
+//   const id = req.params.id;
+//   if (checkPermission(req, res, id)) {
+//     res.render('home', { id });
+//   }
+// })
 
-
-// GET home
-router.get('/home/:id', (req, res) => {
-  const id = req.params.id;
-  if (checkPermission(req, res, id)) {
-    res.render('home', { id });
-  }
-})
-
-// GET recommendation
-router.get('/recommendation/:id', (req, res) => {
-  const id = req.params.id;
-  if (checkPermission(req, res, id)) {
-    User.findById(id)
-      .then(userFromDB => {
-        const genres = userFromDB.favGenres;
-        spotifyApi.getRecommendations({
-          seed_genres: genres,
-          limit: 1
-        })
-          .then(data => {
-            let recommendations = data.body;
-            let image = recommendations.tracks[0].album.images[0].url;
-            res.render('recommendation', { image, id })
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-})
 
 //GET logout
 router.get('/logout', (req, res) => {
@@ -185,25 +126,6 @@ router.post('/login', (req, res) => {
     .catch(e => {
       console.log(e);
     })
-})
-
-
-// POST preferences
-router.post('/prefrences/:id', (req, res) => {
-
-  const id = req.params.id
-  const obj = {
-    favGenres: Object.values(req.body)
-  }
-
-  User.findByIdAndUpdate(id, obj, { new: true })
-    .then(user => {
-      console.log(user, 'has been successfully updated.');
-      res.redirect(`/home/${id}`)
-    })
-    .catch(err => {
-      console.log(err);
-    });
 })
 
 
