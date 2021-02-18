@@ -131,7 +131,6 @@ nav {
 .tag {
   padding: 8px; }
 
-
 .home {
   width: 100vh;
   height: 300px;
@@ -158,7 +157,6 @@ nav {
 .check-lbl {
   height: 32px; }
 
-
 .main {
   background-image: url("/images/background.jpg");
   background-position: center;
@@ -184,6 +182,10 @@ nav {
   background-repeat: no-repeat;
   background-size: cover;
   height: 500px; }
+
+.nav-container {
+  padding-left: 24px;
+  padding-right: 24px; }
 
 .subheader {
   height: 32px;
