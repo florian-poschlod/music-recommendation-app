@@ -1,23 +1,31 @@
-{{> title}}
+<div class="screen">
+  {{> title}}
 
-<div class="flex col auth-container">
-  <h2>Sign Up</h2>
-
-  <p class="text-body warn">{{message}}</p>
-
-  <form action="/signup" method="POST" class="flex col center">
-
-    <div class="flex col">
-      <label for=" username" class="text-body black">Username</label>
-      <input type="text" name="username" class="input-credential">
+  <div class="flex col auth-container">
+    <div class="flex row space-between center">
+      <h2>Sign Up</h2>
+      <a href="/">Back</a>
     </div>
+    <div class='signup'>
+      {{#if message}}
+        <p class="text-body warn">{{message}}</p>
+      {{/if}}
 
-    <div class="flex col">
-      <label for="password" class="text-body black">Password</label>
-      <input type="password" name="password" class="input-credential">
-    </div>
+      <form action="/signup" method="POST" class="flex col center">
 
+        <div class="flex col">
+          <label for=" username" class="text-body black">Username</label>
+          <input type="text" name="username" class="input-credential">
+        </div>
 
-    <button type="submit">Sign Up</button>
-  </form>
+        <div class="flex col">
+          <label for="password" class="text-body black">Password</label>
+          <input type="password" name="password" class="input-credential">
+        </div>
+      
+
+        <button class="btn primary enter" type="submit">Sign Up</button>
+      </form>
+    </div>  
+  </div>
 </div>
