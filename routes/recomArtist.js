@@ -35,60 +35,58 @@ function checkPermission(req, res, id) {
 // GET recommendation
 router.get('/recom-artist/:id', (req, res) => {
   const id = req.params.id;
-  const data1 = req.body
-  console.log(data1)
-  if (checkPermission(req, res, id)) {
-    User.findById(id)////
-      .then(userFromDB => {
-        const arists = userFromDB.favArtists;
-        console.log(userFromDB);
-        const tempo = userFromDB.param.tempo;
-        const acousticness = userFromDB.param.acousticness/10;
-        spotifyApi.searchArtists(arists)//////////////
-        .then(data => {
-          let artist = data.body.artists.items[0].id
-          console.log('Search artists by ', data.body.artists.items[0].id);
-          spotifyApi.getRecommendations({////////
-                  seed_artists: artist,
-                  min_tempo: tempo - 10,
-                  max_tempo: tempo + 10,
-                  min_acousticness: acousticness - 0.1,
-                  max_acousticness: acousticness + 0.1,
-                  limit: 1
-                })
-                  .then(data => {
-                    let recommendations = data.body;
-                    let names = {
-                      albumName: data.body.tracks[0].album.name,
-                      artistName: data.body.tracks[0].artists[0].name
-                    };
-                    //console.log(names);
-                    let albumId = data.body.tracks[0].album.id
-                    let image = recommendations.tracks[0].album.images[0].url;
-                    spotifyApi.getAlbumTracks(albumId)//////////
-                      .then(data => {
-                        let tracks = data.body.items;
-                        //console.log(data.body);
-                        res.render('recommendation', { image, id, tracks, names})
-                      })
-                      .catch(err => {
-                        console.log('Something went wrong!', err);
-                      })
-                  })
-                  .catch(err => {
-                    console.log(err);
-                  })
 
-        })
-        .catch(err => {
-          console.log('Something went wrong!', err);
-        })
-        
+  if (checkPermission(req, res, id)) {
+
+    async function asyncCall() {
+
+      //gets the user from the db
+      const user = await User.findById(id)
+      const arists = user.favArtists;
+      const tempo = user.param.tempo;
+      const acousticness = user.param.acousticness/10;
+      let artistArray =[];
+
+      for (ele of arists) {
+        //gets the ids of the artists
+        const data = await spotifyApi.searchArtists(ele)
+        artistArray.push(data.body.artists.items[0].id) 
+      }  
+
+      //gets recommendations based on the seed and params
+      const recom  = await spotifyApi.getRecommendations({
+        seed_artists: artistArray,
+        min_tempo: tempo - 10,
+        max_tempo: tempo + 10,
+        min_acousticness: acousticness - 0.1,
+        max_acousticness: acousticness + 0.1,
+        limit: 1
       })
-      .catch(err => {
-        console.log(err);
-      })
+      
+      let recommendations = recom.body;
+      let names = {
+        albumName: recom.body.tracks[0].album.name,
+        artistName: recom.body.tracks[0].artists[0].name
+      };
+      let albumId = recom.body.tracks[0].album.id
+      let image = recommendations.tracks[0].album.images[0].url;
+      //console.log(names, albumId, image);
+
+      //gets the tracks from the album
+      const albumTracks = await spotifyApi.getAlbumTracks(albumId)
+      let tracks = albumTracks.body.items;
+      //console.log(data.body);
+      res.render('recommendation', { image, id, tracks, names})
+
+    }
+
+    asyncCall();
+    
+
   }
 })
+
+
+
 
 module.exports = router;
