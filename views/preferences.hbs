@@ -1,4 +1,6 @@
-<h2>Choose Preferences</h2>
+{{> nav}}
+
+{{!-- <h2>Choose Preferences</h2> --}}
 
 <form action='/prefrences/{{id}}' method="POST">
 
@@ -6,19 +8,13 @@
 
   <div class="flex row wrap">
     {{#each prefs.favGenres}}
-    <div class="tag">
-      <input class="checked" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}" Checked>
-      <label for="{{this}}"> {{this}}</label><br>
-    </div>
-
+      <input class="check" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}" Checked>
+      <label for="{{this}}" class="text-body black"> {{this}}</label><br>
     {{/each}}
 
     {{#each genres}}
-    <div class="tag">
       <input class="check" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}">
-      <label for="{{this}}"> {{this}}</label><br>
-    </div>
-
+      <label for="{{this}}" class="text-body black"> {{this}}</label><br>
     {{/each}}
   </div>
 

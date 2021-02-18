@@ -61,6 +61,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+hbs.registerPartials(__dirname + '/views/partials')
 
 
 
@@ -77,7 +78,7 @@ spotifyApi
   .catch(error => console.log('Something went wrong when retrieving an access token', error));
 
 // default value for title local
-app.locals.title = 'Music Recommendation App';
+app.locals.title = 'Bandsalat';
 
 
 // Routes
