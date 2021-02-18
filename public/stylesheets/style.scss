@@ -160,16 +160,22 @@ nav {
 
 // Log in/Sign up
 
-.input-credential {
+.input-credential,
+.input-artist {
   height: 32px;
   width: 320px;
 }
 
 
 // Preferences
+.pref-col {
+  width: 50%;
+}
+
 .tag {
   padding: 8px;
 }
+
 
 .home {
   width: 100vh;
@@ -189,6 +195,20 @@ nav {
   padding: 10px 10px;
   background-color: rgba(240, 255, 255, 0.692);
 }
+
+.pref-subhead {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.pref-submit {
+  margin-top: 16px;
+}
+
+.check-lbl {
+  height: 32px;
+}
+
 
 .main {
   background-image: url('/images/background.jpg');
