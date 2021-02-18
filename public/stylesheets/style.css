@@ -105,22 +105,31 @@ button {
 .space-between {
   justify-content: space-between; }
 
-
 nav {
   height: 56px;
   padding-left: 24px;
   padding-right: 24px; }
 
-.auth-container {
-  width: 320px; }
-
-.input-credential {
+.input-credential,
+.input-artist {
   height: 32px;
   width: 320px; }
+
+.pref-col {
+  width: 50%; }
 
 .tag {
   padding: 8px; }
 
+.pref-subhead {
+  margin-top: 16px;
+  margin-bottom: 16px; }
+
+.pref-submit {
+  margin-top: 16px; }
+
+.check-lbl {
+  height: 32px; }
 
 .main {
   background-image: url("/images/background.jpg");
@@ -171,6 +180,5 @@ nav {
   padding-bottom: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--color-divider-line); }
-
 
 /*# sourceMappingURL=style.css.map */
