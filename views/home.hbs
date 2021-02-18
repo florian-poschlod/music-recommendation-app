@@ -1,42 +1,42 @@
-{{> nav}}
+<div class="screen">
+  {{> nav}}
+      <h3>Welcome {{user.username}}</h3>
+      
+  <div class="home">
+    <div class= "width">
+      <form class="params flex center space-around" action="/parameters/{{user.id}}" method="POST">
+        <div>
+          <p>tempo: {{user.param.tempo}}</p>
+          <input type="range" min="40" max="200" value={{user.param.tempo}} class="slider" name="tempo" id="tempo">
+          <label for="tempo"></label>
+          <p>acousticness: {{user.param.acousticness}}</p>
+          <input type="range" min="0" max="10" value={{user.param.acousticness}} class="slider" name="acousticness" id="acousticness">
+          <label for="acousticness"></label>
+        </div>
+        <div>
+          <button type="submit">Set</button>
+        </div>
+      </form>
 
-<h3>Welcome {{user.username}}</h3>
-<p>tempo: {{user.param.tempo}} acousticness: {{user.param.acousticness}}</p>
-<form action="/parameters/{{user.id}}" method="POST">
-  <input type="range" min="40" max="200" value={{user.param.tempo}} class="slider" name="tempo" id="tempo">
-  <label for="tempo"> tempo</label>
-  <input type="range" min="0" max="10" value={{user.param.acousticness}} class="slider" name="acousticness"
-    id="acousticness">
-  <label for="acousticness"> acousticness</label>
-  <button type="submit">Set</button>
-</form>
 
 
-<div class="flex row">
-  <div>
-    <p>Selected genres:</p>
-    {{#each user.favGenres}}
-    <li>{{this}}</li>
-    {{/each}}
+      <div class="flex space-around search">
+        <form  action="/recom-genre/{{user.id}}" method="GET">
+          <button type="submit">Search by genre</button>
+          <p>Selected genres:</p>
+          {{#each user.favGenres}}
+          <li>{{this}}</li>
+          {{/each}}
+
+        </form>
+
+        <form action="/recom-artist/{{user.id}}" method="GET">
+          <button type="submit">Search by artist</button>
+          <p>Selected artists:</p>
+          {{#each user.favArtists}}
+          <li>{{this}}</li>
+          {{/each}}
+        </form>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <p>Selected artists:</p>
-    {{#each user.favArtists}}
-    <li>{{this}}</li>
-    {{/each}}
-  </div>
-
-</div>
-
-
-
-<div class="flex row">
-  <form action="/recom-genre/{{user.id}}" method="GET">
-    <button type="submit">Search by genre</button>
-  </form>
-
-  <form action="/recom-artist/{{user.id}}" method="GET">
-    <button type="submit">Search by artist</button>
-  </form>
-</div>
