@@ -151,15 +151,33 @@ nav {
 
 // Log in/Sign up
 
-.input-credential {
+.input-credential,
+.input-artist {
   height: 32px;
   width: 320px;
 }
 
 
 // Preferences
+.pref-col {
+  width: 50%;
+}
+
 .tag {
   padding: 8px;
+}
+
+.pref-subhead {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.pref-submit {
+  margin-top: 16px;
+}
+
+.check-lbl {
+  height: 32px;
 }
 
 
