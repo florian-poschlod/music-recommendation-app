@@ -11,8 +11,14 @@
   <button type="submit">Set</button>
 </form>
 
-<form action="/recommendation/{{user.id}}" method="GET">
-  <button type="submit">Go!</button>
+<form action="/recom-genre/{{user.id}}" method="GET">
+  <button type="submit">Search by genre</button>
+</form>  
+
+<form action="/recom-artist/{{user.id}}" method="GET">
+  <button type="submit">Search by artist</button>
+</form>  
+
 <p>Selected genres:</p>
 {{#each user.favGenres}}
   <li>{{this}}</li>
@@ -22,4 +28,3 @@
   <li>{{this}}</li>
 {{/each}}
 
-</form>

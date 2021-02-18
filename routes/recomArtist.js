@@ -33,47 +33,57 @@ function checkPermission(req, res, id) {
 
 
 // GET recommendation
-router.get('/recommendation/:id', (req, res) => {
+router.get('/recom-artist/:id', (req, res) => {
   const id = req.params.id;
   const data1 = req.body
   console.log(data1)
   if (checkPermission(req, res, id)) {
-    User.findById(id)
+    User.findById(id)////
       .then(userFromDB => {
-        const genres = userFromDB.favGenres;
+        const arists = userFromDB.favArtists;
         console.log(userFromDB);
         const tempo = userFromDB.param.tempo;
         const acousticness = userFromDB.param.acousticness/10;
-        spotifyApi.getRecommendations({////////
-          seed_genres: genres,
-          min_tempo: tempo - 10,
-          max_tempo: tempo + 10,
-          min_acousticness: acousticness - 0.1,
-          max_acousticness: acousticness + 0.1,
-          limit: 1
+        spotifyApi.searchArtists(arists)//////////////
+        .then(data => {
+          let artist = data.body.artists.items[0].id
+          console.log('Search artists by ', data.body.artists.items[0].id);
+          spotifyApi.getRecommendations({////////
+                  seed_artists: artist,
+                  min_tempo: tempo - 10,
+                  max_tempo: tempo + 10,
+                  min_acousticness: acousticness - 0.1,
+                  max_acousticness: acousticness + 0.1,
+                  limit: 1
+                })
+                  .then(data => {
+                    let recommendations = data.body;
+                    let names = {
+                      albumName: data.body.tracks[0].album.name,
+                      artistName: data.body.tracks[0].artists[0].name
+                    };
+                    //console.log(names);
+                    let albumId = data.body.tracks[0].album.id
+                    let image = recommendations.tracks[0].album.images[0].url;
+                    spotifyApi.getAlbumTracks(albumId)//////////
+                      .then(data => {
+                        let tracks = data.body.items;
+                        //console.log(data.body);
+                        res.render('recommendation', { image, id, tracks, names})
+                      })
+                      .catch(err => {
+                        console.log('Something went wrong!', err);
+                      })
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  })
+
         })
-          .then(data => {
-            let recommendations = data.body;
-            let names = {
-              albumName: data.body.tracks[0].album.name,
-              artistName: data.body.tracks[0].artists[0].name
-            };
-            //console.log(names);
-            let albumId = data.body.tracks[0].album.id
-            let image = recommendations.tracks[0].album.images[0].url;
-            spotifyApi.getAlbumTracks(albumId)//////////
-              .then(data => {
-                let tracks = data.body.items;
-                //console.log(data.body);
-                res.render('recommendation', { image, id, tracks, names})
-              })
-              .catch(err => {
-                console.log('Something went wrong!', err);
-              })
-          })
-          .catch(err => {
-            console.log(err);
-          })
+        .catch(err => {
+          console.log('Something went wrong!', err);
+        })
+        
       })
       .catch(err => {
         console.log(err);
