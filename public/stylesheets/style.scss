@@ -64,6 +64,7 @@ button {
   height: 32px;
   width: 128px;
   color: var(--color-text-inverted);
+  font-size: 1.6rem;
   border: none;
   padding: 0;
   font: inherit;
@@ -83,6 +84,10 @@ button {
 
 .col {
   flex-direction: column;
+}
+
+.center {
+  align-items: center;
 }
 
 

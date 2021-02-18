@@ -5,12 +5,18 @@
 
   <p class="text-body warn">{{message}}</p>
 
-  <form action="/signup" method="POST" class="flex col">
-    <label for="username" class="text-body black">Username</label>
-    <input type="text" name="username">
+  <form action="/signup" method="POST" class="flex col center">
 
-    <label for="password" class="text-body black">Password</label>
-    <input type="password" name="password">
+    <div class="flex col">
+      <label for=" username" class="text-body black">Username</label>
+      <input type="text" name="username">
+    </div>
+
+    <div class="flex col">
+      <label for="password" class="text-body black">Password</label>
+      <input type="password" name="password">
+    </div>
+
 
     <button type="submit">Sign Up</button>
   </form>
