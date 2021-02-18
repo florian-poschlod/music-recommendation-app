@@ -8,19 +8,13 @@
 
   <div class="flex row wrap">
     {{#each prefs.favGenres}}
-    <div class="flex row tag center">
       <input class="check" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}" Checked>
       <label for="{{this}}" class="text-body black"> {{this}}</label><br>
-    </div>
-
     {{/each}}
 
     {{#each genres}}
-    <div class="flex row tag center">
       <input class="check" type="checkbox" id="{{this}}" name="favGenres" value="{{this}}">
       <label for="{{this}}" class="text-body black"> {{this}}</label><br>
-    </div>
-
     {{/each}}
   </div>
 
