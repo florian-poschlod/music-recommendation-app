@@ -8,7 +8,7 @@ body {
   
   // Colors
   --color-main-bg: white;
-  --color-signal: red;
+  --color-signal: rgb(234, 0, 255);
   --color-text-black: rgb(22, 22, 22);
   --color-text-inverted: var(--color-main-bg);
 }
@@ -42,8 +42,14 @@ a {
   text-decoration: none;
 }
 
+.nav-left {
+  margin-right: 28px;
+}
+
 .btn {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 32px;
   padding-top: 3px;
   padding-bottom: auto;
@@ -68,8 +74,6 @@ button {
   border: none;
   padding: 0;
   font: inherit;
-  // cursor: pointer;
-  // outline: inherit;
 }
 
 
@@ -89,6 +93,13 @@ button {
 .center {
   align-items: center;
 }
+.wrap {
+  flex-wrap: wrap;
+}
+
+.space-between {
+  justify-content: space-between;
+}
 
 
 // Log in/Sign up
@@ -99,4 +110,10 @@ button {
 .input-credential {
   height: 32px;
   width: 320px;
+}
+
+
+// Preferences
+.tag {
+  padding: 8px;
 }

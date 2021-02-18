@@ -5,7 +5,7 @@ body {
   padding: 0px;
   font-family: 'Inter', sans-serif;
   --color-main-bg: white;
-  --color-signal: red;
+  --color-signal: rgb(234, 0, 255);
   --color-text-black: rgb(22, 22, 22);
   --color-text-inverted: var(--color-main-bg); }
 
@@ -30,12 +30,16 @@ a {
   font-size: 1.6rem;
   text-decoration: none; }
 
+.nav-left {
+  margin-right: 28px; }
+
 .btn {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 32px;
-  padding-top: auto;
+  padding-top: 3px;
+  padding-bottom: auto;
   text-align: center;
   margin: 4px; }
 
@@ -66,11 +70,20 @@ button {
 .center {
   align-items: center; }
 
+.wrap {
+  flex-wrap: wrap; }
+
+.space-between {
+  justify-content: space-between; }
+
 .auth-container {
   width: 320px; }
 
 .input-credential {
   height: 32px;
   width: 320px; }
+
+.tag {
+  padding: 8px; }
 
 /*# sourceMappingURL=style.css.map */
