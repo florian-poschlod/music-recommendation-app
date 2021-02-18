@@ -90,8 +90,11 @@ app.use('/', auth)
 const prefs = require('./routes/prefs');
 app.use('/', prefs)
 
-const recom = require('./routes/recom');
-app.use('/', recom)
+const recomGenre = require('./routes/recomGenre');
+app.use('/', recomGenre)
+
+const recomArtist = require('./routes/recomArtist');
+app.use('/', recomArtist)
 
 const home = require('./routes/home');
 app.use('/', home)

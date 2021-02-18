@@ -1,15 +1,25 @@
 <h2>Home</h2>
-<a href="/preferences/{{id}}">preferences</a> 
+<a href="/preferences/{{user.id}}">preferences</a> 
 <a href="/logout">Logout</a>
-<p>tempo: {{param.tempo}} acousticness: {{param.acousticness}}</p>
-<form action="/parameters/{{id}}" method="POST">
-  <input type="range" min="40" max="200" value={{param.tempo}} class="slider" name="tempo" id="tempo">
+<h3>Welcome {{user.username}}</h3>
+<p>tempo: {{user.param.tempo}} acousticness: {{user.param.acousticness}}</p>
+<form action="/parameters/{{user.id}}" method="POST">
+  <input type="range" min="40" max="200" value={{user.param.tempo}} class="slider" name="tempo" id="tempo">
   <label for="tempo"> tempo</label>
-  <input type="range" min="0" max="10" value={{param.acousticness}} class="slider" name="acousticness" id="acousticness">
+  <input type="range" min="0" max="10" value={{user.param.acousticness}} class="slider" name="acousticness" id="acousticness">
   <label for="acousticness"> acousticness</label>
   <button type="submit">Set</button>
 </form>
 
-<form action="/recommendation/{{id}}" method="GET">
+<form action="/recommendation/{{user.id}}" method="GET">
   <button type="submit">Go!</button>
+<p>Selected genres:</p>
+{{#each user.favGenres}}
+  <li>{{this}}</li>
+{{/each}}
+<p>Selected artists:</p>
+{{#each user.favArtists}}
+  <li>{{this}}</li>
+{{/each}}
+
 </form>
