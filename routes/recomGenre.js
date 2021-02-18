@@ -33,12 +33,12 @@ function checkPermission(req, res, id) {
 
 
 // GET recommendation
-router.get('/recommendation/:id', (req, res) => {
+router.get('/recom-genre/:id', (req, res) => {
   const id = req.params.id;
-  const data1 = req.body
-  console.log(data1)
+  // const data1 = req.body
+  // console.log(data1)
   if (checkPermission(req, res, id)) {
-    User.findById(id)
+    User.findById(id)///////////
       .then(userFromDB => {
         const genres = userFromDB.favGenres;
         console.log(userFromDB);

@@ -39,8 +39,10 @@ router.get('/home/:id', (req, res) => {
     User
       .findById(id)
       .then(user => {
-        param = user.param;
-        res.render('home', { id, param });  
+        // param = user.param;
+        // username = user.username;
+        console.log(user.favArtists[1])
+        res.render('home', { id, user });  
       })
       .catch(err => {
         console.log(err);
