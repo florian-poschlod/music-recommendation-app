@@ -1,16 +1,31 @@
-<h2>Recommendation</h2>
+{{>nav}}
 
-<a href="/home/{{id}}">back</a>
+<div class="flex row center subheader">
+  <a href="/home/{{id}}">
+    <- Back</a>
+</div>
 
-<h3>Album: {{names.albumName}}</h3>
-<h3>Artist: {{names.artistName}}</h3>
-<img src="{{image}}" alt="">
+<div class="flex row rec-container">
+  <img src="{{image}}" alt="" class="album-cover">
 
-{{#each tracks}}
-  <p>{{this.name}}</p> 
-  {{#if this.preview_url}}
-      <audio controls>
-        <source src="{{this.preview_url}}" type="audio/mpeg">
-      </audio>
-  {{/if}}
-{{/each}}
+  <div class="info-container">
+    <h2 class="black">{{names.albumName}}</h2>
+    <h2 class="grey">by {{names.artistName}}</h2>
+
+    <div class="track-container">
+      {{#each tracks}}
+      <div class="flex row space-between track-item">
+        <p class=" text-body black">{{this.name}}</p>
+        {{#if this.preview_url}}
+        <audio controls>
+          <source src="{{this.preview_url}}" type="audio/mpeg">
+        </audio>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+
+
+  </div>
+
+</div>
