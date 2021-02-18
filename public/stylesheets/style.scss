@@ -8,7 +8,7 @@ body {
   
   // Colors
   --color-main-bg: white;
-  --color-signal: rgb(234, 0, 255);
+  --color-signal: rgba(136, 23, 146, 0.938);
   --color-text-black: rgb(22, 22, 22);
   --color-text-inverted: var(--color-main-bg);
 }
@@ -26,6 +26,11 @@ h1 {
 
 .text-body {
   font-size: 1.6rem;
+  background-color: rgba(255, 255, 255, 0.849);
+  padding: 1% 2%;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  margin-top: 2px;
 }
 
 .black {
@@ -33,11 +38,17 @@ h1 {
 }
 
 .warn {
-  color: var(--color-signal)
+  color: var(--color-signal);
+  background-color: rgba(255, 255, 255, 0.863);
 }
 
 // Link "buttons"
 a {
+  font-size: 1.6rem;
+  text-decoration: none;
+}
+
+.enter {
   font-size: 1.6rem;
   text-decoration: none;
 }
@@ -55,6 +66,7 @@ a {
   padding-bottom: auto;
   text-align: center;
   margin: 4px;
+  border-radius: 10px;
 }
 
 .primary {
@@ -103,9 +115,6 @@ button {
 
 
 // Log in/Sign up
-.auth-container {
-  width: 320px
-}
 
 .input-credential {
   height: 32px;
@@ -117,3 +126,34 @@ button {
 .tag {
   padding: 8px;
 }
+
+.main {
+  background-image: url('/images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.screen {
+  width: 100vh;
+  margin: auto;
+}
+
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+}
+
