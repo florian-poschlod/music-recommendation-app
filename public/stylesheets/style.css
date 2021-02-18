@@ -5,30 +5,4 @@ body {
 a {
   color: #00B7FF; }
 
-
-/* Typography */
-
-/* Typescale */
-.error {
-  color: var(--color-error);
-}
-
-
-/* Layout */
-.flex {
-  display: flex;
-}
-
-.row {
-  flex-direction: row;
-}
-
-.wrap {
-  flex-wrap: wrap;
-}
-
-.tag {
-  display: flex;
-  flex-direction: row;
-  padding: 8px;
-}
+/*# sourceMappingURL=style.css.map */
