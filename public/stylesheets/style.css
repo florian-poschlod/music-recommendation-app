@@ -31,10 +31,11 @@ a {
   text-decoration: none; }
 
 .btn {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 32px;
-  padding-top: 3px;
-  padding-bottom: auto;
+  padding-top: auto;
   text-align: center;
   margin: 4px; }
 
