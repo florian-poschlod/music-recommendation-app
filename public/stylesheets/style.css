@@ -4,7 +4,7 @@
 body {
   --color-main-bg: rgb(250, 250, 250);
   --color-divider-line: rgb(200, 200, 200);
-  --color-signal: rgb(234, 0, 255);
+  --color-signal: rgba(159, 23, 172, 0.87);
   --color-text-black: rgb(22, 22, 22);
   --color-text-grey: rgb(161, 161, 161);
   --color-text-inverted: var(--color-main-bg);
@@ -87,6 +87,15 @@ button {
   padding: 0;
   font: inherit; }
 
+.params {
+  border-top: 1px inset #a1a1a1;
+  border-bottom: 1px inset #a1a1a1;
+  padding-top: 7px;
+  padding-bottom: 10px; }
+
+.search {
+  padding-top: 7px; }
+
 .flex {
   display: flex; }
 
@@ -105,10 +114,11 @@ button {
 .space-between {
   justify-content: space-between; }
 
+.space-around {
+  justify-content: space-around; }
+
 nav {
-  height: 56px;
-  padding-left: 24px;
-  padding-right: 24px; }
+  height: 56px; }
 
 .input-credential,
 .input-artist {
@@ -121,6 +131,23 @@ nav {
 .tag {
   padding: 8px; }
 
+
+.home {
+  width: 100vh;
+  height: 300px;
+  background-image: url("/images/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.width {
+  padding: 10px 10px;
+  background-color: rgba(240, 255, 255, 0.692); }
+
 .pref-subhead {
   margin-top: 16px;
   margin-bottom: 16px; }
@@ -130,6 +157,7 @@ nav {
 
 .check-lbl {
   height: 32px; }
+
 
 .main {
   background-image: url("/images/background.jpg");
